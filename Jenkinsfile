@@ -1,18 +1,22 @@
 pipeline {
-  stages {
-    stage("Build") {
-       steps {
-          // Just print a Hello, Pipeline to the console
-          echo "Hello, Pipeline!"
-          // Compile a Java file. This requires JDKconfiguration from Jenkins
-          javac HelloWorld.java
-          // Execute the compiled Java binary called HelloWorld. This requires JDK configuration from Jenkins
-          java HelloWorld
-          // Executes the Apache Maven commands, clean then package. This requires Apache Maven configuration from Jenkins
-          mvn clean package ./HelloPackage
-          // List the files in current directory path by executing a default shell command
-          sh "ls -ltr"
-       }
+   agent any
+
+   stages {
+      stage('Build') {
+        steps {
+          echo 'Building...'
+          echo "Running ${env.BUILD_ID} ${env.BUILD_DISPLAY_NAME} on ${env.NODE_NAME} and JOB ${env.JOB_NAME}"
+        }
    }
- } // End of stages
-} // End of pipeline
+   stage('Test') {
+     steps {
+        echo 'Testing...'
+     }
+   }
+   stage('Deploy') {
+     steps {
+       echo 'Deploying...'
+     }
+   }
+  }
+}
